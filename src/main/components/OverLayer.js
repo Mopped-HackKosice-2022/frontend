@@ -27,7 +27,7 @@ function OverLayer({show,setShow,click_dissmiss,children}) {
               z-index: 1010;
               background-color: rgba(17, 17, 17, .8);
        
-    `} onClick={()=> click_dissmiss ?setShow(!show): null}/>
+    `} onClick={()=> click_dissmiss ? setShow(!show): null}/>
         </div>
     );
 }

@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {css} from "@emotion/react";
-import noimg from "../../../assets/images/no_img.png";
 
 const row_style = css`
         border-radius: 5px;
@@ -11,11 +10,15 @@ const row_style = css`
         &:first-child{
             background-color: lightgreen;
         }
+        font-size: 1rem;
+
         
-        h1{
+        h3{
+        font-size: 1.3rem;
             white-space: nowrap;
             overflow: hidden;
             word-break: keep-all;
+            
         }
         `;
 
@@ -25,6 +28,12 @@ const subinfo = css`
     justify-content: space-between;
 `;
 
+const img = css`
+object-fit:cover;
+width:100%;
+height:100%;
+`;
+
 export default class Game extends Component {
 
 
@@ -32,20 +41,17 @@ export default class Game extends Component {
         const style = { zIndex: 100 - this.props.index };
 
         return (
-            <li id={this.props.id} style={style} css={row_style}>
+            <li id={this.props.game.id} style={style} css={row_style} onClick={()=>this.props.openDetail(this.props.game)}>
 
                 <div className="row">
-                    <div className="col-md-3">
-                        <img src={noimg} alt="No img" className="img-fluid"/>
-                    </div>
-                    <div className="col-md-9">
-                        <h4>{this.props.id}</h4>
+                    <div className="col-md-12">
+                        <h3>{this.props.game.id}</h3>
                         <div css={subinfo}>
-                            <p>Category: {this.props.category}</p>
-                            <p>Sub Category: {this.props.subCategory}</p>
+                            <p>Category: {this.props.game.category}</p>
+                            <p>Sub Category: {this.props.game.subCategory}</p>
+                            <h3 className="m-0 d-flex align-items-center">Price: <div style={{width:'90px',textAlign: 'right'}}>{this.props.game.price}€</div></h3>
                         </div>
 
-                        <h3 style={{textAlign:'right'}}>Price: {this.props.price}</h3>
                     </div>
                 </div>
 
