@@ -29,51 +29,7 @@ export function System({children, ...props}) {
 
     const [loading_overlayer, setLoadingOverLayer] = useState(false);
 
-    /* SECURITY */
-    const [user, setUser] = useState(getAuthUserData());
-    const [isAuth, setAuth] = useState(isAuthTokens());
-
-    const Login = ({accessToken, refreshToken}, user_data = null, redirectTo = '/') => {
-        setUser(user_data);
-        setAuth(true);
-
-        setAuthUserData(user_data)
-        setAuthTokens({
-            accessToken:accessToken,
-            refreshToken:refreshToken
-        })
-
-        axios.defaults.headers.common['Authorization'] = "Bearer " + accessToken;
-
-        history.push(redirectTo);
-    };
-
-    const updateUserData = user_data => {
-        setAuthUserData(user_data);
-        setUser(user_data);
-    }
-
-    const Logout = (redirectTo = location.pathname) => {
-        removeAuthTokens();
-        removeAuthUserData();
-        axios.defaults.headers.common['Authorization'] = null;
-        setAuth(false);
-        history.push(redirectTo);
-    };
-
-    const isSuperAdmin = user?.roles.includes("ROLE_SUPER_ADMIN");
-
-
-
     const System = {
-        Security: {
-            isAuth,
-            user,
-            isSuperAdmin,
-            Login,
-            Logout,
-            updateUserData
-        },
         setLoadingOverLayer,
         version,
         ...props
@@ -82,14 +38,13 @@ export function System({children, ...props}) {
     useEffect(() => {
 
         const ListenerInterval = setInterval(() => {
-            if (isAuth && !isAuthTokens()) {
-                Logout('/');
-            }
+
+
         }, 500);
         return () => {
             clearInterval(ListenerInterval);
         };
-    }, [isAuth]);
+    }, []);
 
     return (
         <SystemContext.Provider value={System}>
@@ -105,28 +60,3 @@ export function isStandalone() {
     return window.matchMedia('(display-mode: standalone)').matches;
 }
 
-
-export function PrivateRoute({component: Component, ...rest}) {
-    const System = useSystem();
-
-    const location = useLocation();
-
-    if (System.Security.isAuth) {
-        return (
-            <Route
-                {...rest}
-                render={props => {
-                    return <Component {...props} />
-                }}
-            />
-        )
-    }else {
-        useEffect(()=>{
-            toast.error("For this action you need to log in!");
-            },[]);
-        return <Redirect to={{
-            pathname: routes.login,
-            state: { redirectTo: location.pathname }
-        }}/>;
-    }
-}

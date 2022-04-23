@@ -1,102 +1,50 @@
-import { css } from "@emotion/react";
-import { LoadingButton } from "@mui/lab";
-import { Box, Button, CircularProgress } from "@mui/material";
-import Input from "@mui/material/Input";
+import {css} from "@emotion/react";
+import {Box, Button, CircularProgress, LinearProgress} from "@mui/material";
 import React from "react";
-import { useState } from "react";
-import { blue } from "@mui/material/colors";
+import {useState} from "react";
 
-const ariaLabel = css`
-    'aria-label': 'description' 
+
+const search_field_style = css`
+    width:100%;
+    padding: 20px 30px;
+    font-size: 1.8rem;
+    box-shadow: 2px 5px 10px rgba(0,0,0,.3);
+    border: none;
+    border-radius: 20px;
+    &:focus{
+        box-shadow: 2px 5px 10px rgba(0,0,0,.3);
+        border:none;
+        outline:none;
+        
+    }
 `;
 
-const searchForm = css`
-  border-style: solid;
-  padding: ;
-`;
-
-const progressBar = css`
-  margin-left: 5px;
-  margin-top: 10px;
-`;
 
 export default function SearchField(props) {
-  const [gameId, setGameId] = useState(null);
 
-  const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
 
-  const [success, setSuccess] = useState(false);
 
-  const handleChange = (event) => {
-    setGameId(event.target.value);
-  };
+    const handleChange = (event) => {
+      setLoading(true);
 
-  const handleSubmit = () => {
-    setSuccess(false);
-    setLoading(true);
+      setTimeout(()=>{
 
-    setTimeout(() => {
-      setSuccess(true);
-      setLoading(false);
-    }, 2000);
-  };
+        setLoading(false);
 
-  const suggestionsListComponent = () => {
+      },2000);
+    };
+
     return (
-      <ul>
-        <li>Hello</li>
-        <li>Hello</li>
-        <li>Hello</li>
-      </ul>
-    );
-  };
-
-  const buttonSx = {
-    ...(success && {
-      bgcolor: blue[500],
-      "&:hover": {
-        bgcolor: blue[700],
-      },
-    }),
-  };
-
-  return (
-    <>
-      <div>
-        <Input
-          placeholder="Select game"
-          inputProps={ariaLabel}
-          onChange={handleChange}
-        />
-      </div>
-      <br />
-      <div>
-        <Box sx={{ m: 1, position: "relative" }}>
-          <Button
-            variant="contained"
-            sx={buttonSx}
-            disabled={loading}
-            onClick={handleSubmit}
-          >
-            Submit
-          </Button>
-          {loading && (
-            <CircularProgress
-              size={24}
-              sx={{
-                color: blue[500],
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                marginTop: "-12px",
-                marginLeft: "-12px",
-              }}
+        <>
+            <input
+                css={search_field_style}
+                placeholder="Select game"
+                onChange={handleChange}
             />
-          )}
-        </Box>
+            <LinearProgress hidden={!loading}/>
 
-        {/* {suggestionsListComponent} */}
-      </div>
-    </>
-  );
+
+        </>
+    );
 }

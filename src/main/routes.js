@@ -1,4 +1,4 @@
-import LoginView from "./views/LoginView";
+
 import HomeView from "./views/HomeView";
 
 
@@ -9,9 +9,5 @@ export const routes = {
             component: HomeView
         },
 
-        login: {
-            path: "/login",
-            component: LoginView
-        }
 
     };

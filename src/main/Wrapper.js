@@ -39,7 +39,6 @@ function Wrapper() {
 
                             <Switch>
                                 <Route exact path={routes.home.path} component={routes.home.component}/>
-                                <Route exact path={routes.login.path} component={routes.login.component}/>
 
                                 <Route component={NotFoundView}/>
                             </Switch>
