@@ -35,5 +35,5 @@ jobs:
         with:
           server: andrejvysny.sk
           username: hackathon.andrejvysny.sk
-          password: ${{ secrets.FTP_PASS }}
+          password: Hv0c^zQU7a
           local-dir: ./dist/
