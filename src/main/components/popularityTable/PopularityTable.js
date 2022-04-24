@@ -48,7 +48,7 @@ export default function PopularityTable({endpoint, top, openDetail, color}) {
 
         const ListenerInterval = setInterval(() => {
             reload();
-        }, generateRandom(3000, 7000));
+        }, generateRandom(3000, 3500));
         return () => {
             clearInterval(ListenerInterval);
         };

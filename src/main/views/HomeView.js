@@ -52,11 +52,11 @@ export default function HomeView() {
                 <div className="row" style={{marginTop: 100}}>
                     <div className="col-md-6">
                             <h2 className="text-center fonts_size_2_5rem">Hottest &#128293;</h2>
-                       <PopularityTable top={true} color="255,67,0" endpoint={"/getGlobalDataTop"} openDetail={openDetail}/>
+                       <PopularityTable top={true} fontcolor="255,67,0" color="255,67,0" endpoint={"/getGlobalDataTop"} openDetail={openDetail}/>
                     </div>
                     <div className="col-md-6">
                             <h2 className="text-center fonts_size_2_5rem">Coldest <span style={{color: '#00c3ff'}}>&#10052;</span></h2>
-                        <PopularityTable top={false} color="164,255,0" endpoint={"/getGlobalDataBottom"} openDetail={openDetail}/>
+                        <PopularityTable top={false} fontcolor="164,255,0" color="164,255,0" endpoint={"/getGlobalDataBottom"} openDetail={openDetail}/>
                     </div>
                 </div>
 

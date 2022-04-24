@@ -1,7 +1,7 @@
 import {css} from "@emotion/react";
-import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
+import LinearProgress  from '@mui/material/LinearProgress';
 
-import React from "react";
+import React, {useRef} from "react";
 import {useState} from "react";
 import Game from "./popularityTable/Game";
 import axios from "axios";
@@ -29,6 +29,8 @@ const results_style = css`
     margin: -16px 0 0 0;
     padding: 10px;
     background-color: white;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
     ul{
         padding: 0;
         margin: 0;
@@ -51,57 +53,101 @@ const progress = css`
 `;
 
 
+const gameIdSuggestion_style = css`
+    padding: 1rem;
+    font-size:1.5rem;
+    color:black;
+    cursor: pointer;
+`;
+
+const clear_style = css`
+        position:absolute;
+        right:30px;
+        top:26px;
+        font-size:2rem;
+        color:black;
+        cursor:pointer;
+`;
+
 export default function SearchField({openDetail}) {
 
     const [loading, setLoading] = useState(false);
 
-    const [results,setResults] = useState([]);
+    const [results,setResults] = useState(null);
+
+    const input_ref = useRef();
 
 
     const handleChange = (event) => {
-        if (event.target.value.length > 2){
-            setLoading(true);
+        if (event.target.value.length >= 2){
 
-            axios.post("/createPrediction",{gameId: event.target.value}).then(r=>{
-                console.log(r.data);
+            setLoading(true);
+            axios.post("/getSuggestion",{search: event.target.value}).then(r=>{
+
                 setLoading(false);
                 setResults(
-                    r.data
+                    r.data.map(game=>{
+                        return <div css={gameIdSuggestion_style} key={game.gameId} onClick={()=>LoadPredictions(game.gameId)}>Game: <strong>{game.gameId}</strong></div>
+                    })
                 );
 
             })
-
         }else{
             setLoading(false);
-            setResults([]);
+            setResults(null);
         }
 
     };
+
+    const clearSearch = ()=>{
+        input_ref.current.value = '';
+        setResults(null);
+    }
+
+    const LoadPredictions = (gameId)=>{
+
+
+        input_ref.current.value = gameId;
+        setLoading(true);
+
+        axios.post("/createPrediction",{gameId: gameId}).then(r=>{
+
+            setLoading(false);
+            setResults(
+                r.data.map((game,i)=>{
+                    return  <Game
+                        openDetail={openDetail}
+                        key={game.id}
+                        index={i}
+                        game={game}
+                        color={"32,32,32"}
+                        fontcolor={"164,255,0"}
+                        top={true}
+                    />
+                })
+            );
+        })
+    }
 
     return (
         <div style={{position:'relative'}}>
 
             <input
+                ref={input_ref}
                 css={search_field_style}
                 placeholder="Select game"
                 onChange={handleChange}
             />
 
+            <i hidden={results === null} className="fas fa-times" onClick={clearSearch} css={clear_style}/>
+
             <LinearProgress hidden={!loading} css={progress}/>
 
 
-            <div hidden={!results.length>0} css={results_style}>
+            <div hidden={results === null} css={results_style}>
                 <ul>
                     {
-                        results.map((game,i)=>
-                        {
-                            return <Game
-                                openDetail={openDetail}
-                                key={game.id}
-                                index={i}
-                                game={game}
-                            />
-                        })
+                        results
                     }
                 </ul>
             </div>
