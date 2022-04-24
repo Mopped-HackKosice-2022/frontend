@@ -6,7 +6,7 @@ import {css} from "@emotion/react";
 export function calcPercentage(rank,bought,viewed){
 
     //let price = (this.props.top===true?1:-1) * (this.props.game.bought !==0)?(this.props.game.rank / this.props.game.bought):0;
-    return 0.03*rank;
+    return 0.01*rank;
 }
 
 export function OverLayerLoading({show}) {

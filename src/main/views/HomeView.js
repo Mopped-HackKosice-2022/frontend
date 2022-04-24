@@ -7,6 +7,7 @@ import loader from "../../assets/images/loader.svg";
 import {css} from "@emotion/react";
 import OverLayer from "../components/OverLayer";
 import {calcPercentage} from "../../core/helpers/Helper";
+import PopularityCategoryTable from "../components/popularityTable/PopularityCategoryTable";
 
 
 const glob = css`
@@ -57,6 +58,17 @@ export default function HomeView() {
                     <div className="col-md-6">
                             <h2 className="text-center fonts_size_2_5rem">Coldest <span style={{color: '#00c3ff'}}>&#10052;</span></h2>
                         <PopularityTable top={false} fontcolor="164,255,0" color="164,255,0" endpoint={"/getGlobalDataBottom"} openDetail={openDetail}/>
+                    </div>
+                </div>
+
+                <div className="row" style={{marginTop: 100}}>
+                    <div className="col-md-4 mx-auto">
+                        <h2 className="text-center fonts_size_2_5rem">Top Categories</h2>
+                        <PopularityCategoryTable color="123,34,234" endpoint={"/getGlobalCategory"}/>
+                    </div>
+                    <div className="col-md-4 mx-auto">
+                        <h2 className="text-center fonts_size_2_5rem">Top SubCategories</h2>
+                        <PopularityCategoryTable color="123,34,234" endpoint={"/getGlobalSubCategory"}/>
                     </div>
                 </div>
 
