@@ -49,8 +49,9 @@ export default function HomeView() {
 
                 <div className="row mt-5">
                     <div className="col-12">
-                        <h1 className="fonts_Montserrat text-uppercase text-center font-weight-bold">Best
-                            Recommendations</h1>
+                        <h1 className="fonts_Montserrat text-uppercase text-center font-weight-bold">
+                           Stockerize
+                        </h1>
                     </div>
                 </div>
 
