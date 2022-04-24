@@ -40,8 +40,6 @@ createAuthRefreshInterceptor(axios, refreshAuthLogic);
 
 
 ReactDom.render(
-    <React.StrictMode>
-        <Wrapper/>
-    </React.StrictMode>, document.getElementById('wrapper'));
+        <Wrapper/>, document.getElementById('wrapper'));
 
 registerServiceWorker();

@@ -31,10 +31,7 @@ export default function PopularityTable({endpoint, top, openDetail, color}) {
 
         axios.get(endpoint).then(r => {
             setGames(r.data);
-            console.log(r.data);
-
         });
-
 
     }, []);
 

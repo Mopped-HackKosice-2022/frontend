@@ -39,6 +39,7 @@
     "react-flip-move": "^3.0.4",
     "react-router-dom": "^5.3.0",
     "react-toastify": "^8.1.0",
+    "recharts": "^2.1.9",
     "styled-components": "^5.3.3",
     "webpack-merge": "^5.8.0",
     "webpack-node-externals": "^3.0.0",
