@@ -50,7 +50,7 @@ export default function HomeView() {
                 <div className="row mt-5">
                     <div className="col-12">
                         <h1 className="fonts_Montserrat text-uppercase text-center font-weight-bold">
-                           Stockerize
+                           Stockerize.tech
                         </h1>
                     </div>
                 </div>
