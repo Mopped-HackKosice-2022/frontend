@@ -33,7 +33,7 @@ jobs:
       - name: Sync files to hosting FTP
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with:
-          server: andrejvysny.sk
-          username: hackathon.andrejvysny.sk
-          password: ${{ secrets.FTP_PASS }}
+          server: 37.9.175.157
+          username: web.stockerize.tech
+          password: ${{ secrets.FTP_PASS_TECH }}
           local-dir: ./dist/
