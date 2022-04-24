@@ -3,7 +3,7 @@ const package_json = require('../package');
 module.exports = {
 
     api_config:{
-        host: "https://hackkosice2022.azurewebsites.net/api/v1"
+        host: "http://localhost:8000/api/v1"
     },
 
     security:{

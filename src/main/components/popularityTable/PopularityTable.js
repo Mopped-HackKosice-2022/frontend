@@ -22,7 +22,7 @@ function generateRandom(min = 0, max = 100) {
     return rand;
 }
 
-export default function PopularityTable({endpoint, option, openDetail}) {
+export default function PopularityTable({endpoint, top, openDetail, color}) {
 
     const [games, setGames] = useState([]);
 
@@ -30,23 +30,25 @@ export default function PopularityTable({endpoint, option, openDetail}) {
     useEffect(() => {
 
         axios.get(endpoint).then(r => {
-            setGames(shuffle(r.data));
+            setGames(r.data);
+            console.log(r.data);
+
         });
 
-    }, [option]);
 
-    const reload = e => {
+    }, []);
+
+    const reload = () => {
         axios.get(endpoint).then(r => {
-            setGames(shuffle(r.data));
+            setGames(r.data);
         });
     }
 
     useEffect(() => {
 
-
         const ListenerInterval = setInterval(() => {
-            //   reload();
-        }, generateRandom(1500, 5000));
+            reload();
+        }, generateRandom(3000, 7000));
         return () => {
             clearInterval(ListenerInterval);
         };
@@ -64,22 +66,21 @@ export default function PopularityTable({endpoint, option, openDetail}) {
                 {
                     games.length !== 0 ? games.map((game, i) => {
                             return <Game
-                                    openDetail={openDetail}
-                                    key={game.id}
-                                    index={i}
-                                    game={game}
-                                />
+                                openDetail={openDetail}
+                                key={game.id}
+                                index={i}
+                                game={game}
+                                color={color}
+                                top={top}
+                            />
                         }) :
                         <div className="d-flex align-items-center justify-content-center">
                             <img className="img-fluid" src={loader}
-                                 style={{margin: 'auto', width: '100%', maxWidth: 300}} alt="loading"/>
+                                 style={{margin: 'auto', width: '100%', maxWidth: 200}} alt="loading"/>
                         </div>
-
                 }
 
             </FlipMove>
-            <button onClick={reload}>Reload</button>
-
         </>
     );
 }

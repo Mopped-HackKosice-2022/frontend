@@ -6,6 +6,7 @@ import {Button, Card, CardActions, CardContent, NativeSelect, Typography} from "
 import loader from "../../assets/images/loader.svg";
 import {css} from "@emotion/react";
 import OverLayer from "../components/OverLayer";
+import {calcPercentage} from "../../core/helpers/Helper";
 
 
 const glob = css`
@@ -19,14 +20,12 @@ const glob = css`
 
 export default function HomeView() {
 
-    const [hottest, setHottest] = useState(2);
-    const [coldest, setColdest] = useState(2);
-
     const [show,setShow] = useState(false);
     const [show_data,setShowData] = useState(null);
 
-    const openDetail = data=>{
-        setShowData(data);
+    const openDetail = (data,top)=>{
+        let percentage = (top===true?1:-1) *(data.rank / data.bought);
+        setShowData({...data,percentage:calcPercentage(data.rank,data.bought,data.viewed)});
         setShow(true);
     }
 
@@ -46,37 +45,18 @@ export default function HomeView() {
 
                 <div className="row mt-5">
                     <div className="col-md-10 mx-auto">
-                        <SearchField/>
+                        <SearchField openDetail={openDetail}/>
                     </div>
 
                 </div>
                 <div className="row" style={{marginTop: 100}}>
                     <div className="col-md-6">
-                        <div className="d-flex align-items-center justify-content-between">
-                            <h2>Hottest &#128293;</h2>
-                            <NativeSelect
-                                onChange={event => setHottest(event.target.value)}
-                                value={hottest}
-                            >
-                                <option value={1}>Hottest by Users</option>
-                                <option value={2}>Hottest Recommended</option>
-                            </NativeSelect>
-                        </div>
-                        <PopularityTable option={hottest} endpoint={"/dummy"} openDetail={openDetail}/>
+                            <h2 className="text-center fonts_size_2_5rem">Hottest &#128293;</h2>
+                       <PopularityTable top={true} color="255,67,0" endpoint={"/getGlobalDataTop"} openDetail={openDetail}/>
                     </div>
-                    <div className="col-md-6" >
-                        <div className="d-flex align-items-center justify-content-between">
-
-                            <h2>Coldest <span style={{color: '#00c3ff'}}>&#10052;</span></h2>
-                            <NativeSelect
-                                onChange={event => setColdest(event.target.value)}
-                                value={coldest}
-                            >
-                                <option value={1}>Coldest by Users</option>
-                                <option value={2}>Coldest Recommended</option>
-                            </NativeSelect>
-                        </div>
-                        <PopularityTable endpoint={"dummy"} option={coldest} openDetail={openDetail}/>
+                    <div className="col-md-6">
+                            <h2 className="text-center fonts_size_2_5rem">Coldest <span style={{color: '#00c3ff'}}>&#10052;</span></h2>
+                        <PopularityTable top={false} color="164,255,0" endpoint={"/getGlobalDataBottom"} openDetail={openDetail}/>
                     </div>
                 </div>
 
@@ -91,7 +71,7 @@ export default function HomeView() {
                 <Card sx={{ minWidth: 275 }}>
                     <CardContent>
                         <Typography sx={{ fontSize: 17 }} color="text.primary" gutterBottom>
-                            ID: {show_data?.id}
+                            ID: {show_data?.gameId}
                         </Typography>
                         <Typography sx={{ mb: 1.5 }} color="text.secondary">
                             Category: {show_data?.category}
@@ -101,6 +81,8 @@ export default function HomeView() {
                         </Typography>
                         <Typography sx={{ mb: 1.5,fontSize:20,textAlign:'right' }} color="text.secondary">
                             {show_data?.price ?? 0}€
+                            <span style={{paddingLeft: 5,fontSize:24,fontWeight: 'bold',color:(show_data?.percentage<=0?'green':'red')}}>{show_data?.percentage>0?'+':null}{show_data?.percentage.toFixed(2)}%</span>
+
                         </Typography>
                     </CardContent>
                     <CardActions>
